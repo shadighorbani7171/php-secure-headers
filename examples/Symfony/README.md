@@ -7,7 +7,7 @@ This directory contains example code for integrating PHP Secure Headers with Sym
 1. First, install the package via composer:
 
 ```bash
-composer require shadi/php-secure-headers
+composer require shgh/php-secure-headers
 ```
 
 2. Copy the `SecureHeadersSubscriber.php` file to your Symfony project's `src/EventSubscriber` directory or create it with the following content:

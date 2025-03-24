@@ -1,5 +1,5 @@
 {
-    "name": "shadi/php-secure-headers",
+    "name": "shgh/php-secure-headers",
     "description": "A simple yet powerful PHP library for managing security headers in web applications",
     "version": "0.1.0",
     "keywords": ["security", "headers", "csp", "php", "x-frame-options", "hsts"],

@@ -1,8 +1,8 @@
 # PHP Secure Headers
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/shadi/php-secure-headers.svg?style=flat-square)](https://packagist.org/packages/shadi/php-secure-headers)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/shgh/php-secure-headers.svg?style=flat-square)](https://packagist.org/packages/shgh/php-secure-headers)
 [![Tests](https://github.com/shadighorbani7171/php-secure-headers/actions/workflows/tests.yml/badge.svg)](https://github.com/shadighorbani7171/php-secure-headers/actions/workflows/tests.yml)
-[![Total Downloads](https://img.shields.io/packagist/dt/shadi/php-secure-headers.svg?style=flat-square)](https://packagist.org/packages/shadi/php-secure-headers)
+[![Total Downloads](https://img.shields.io/packagist/dt/shgh/php-secure-headers.svg?style=flat-square)](https://packagist.org/packages/shgh/php-secure-headers)
 
 A powerful PHP library for managing security headers in web applications. This library helps you implement best security practices by easily configuring various security headers including Content Security Policy (CSP), HTTP Strict Transport Security (HSTS), and more.
 
@@ -26,7 +26,7 @@ A powerful PHP library for managing security headers in web applications. This l
 You can install the package via composer:
 
 ```bash
-composer require shadi/php-secure-headers
+composer require shgh/php-secure-headers
 ```
 
 ## Basic Usage
