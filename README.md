@@ -70,10 +70,12 @@ For detailed instructions and alternative approaches, see `examples/Laravel/READ
 > Laravel integration based on [PHP Secure Headers](https://github.com/shadighorbani7171/php-secure-headers) by [Shadi Ghorbani](https://github.com/shadighorbani7171).
 > ```
 
-### Symfony
+### Symfony 7/8
 
 1. Copy the subscriber from `examples/Symfony/SecureHeadersSubscriber.php` to your Symfony project's `src/EventSubscriber` directory.
 2. The subscriber will be automatically registered thanks to Symfony's autoconfiguration.
+
+For detailed instructions and custom configurations, see `examples/Symfony/README.md`.
 
 > **Note**: When using the Symfony integration, please include the following attribution in your project's README:
 > ```markdown

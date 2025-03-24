@@ -139,4 +139,38 @@ class SymfonyTest extends TestCase
         $this->assertTrue($event->getResponse()->headers->has('Content-Security-Policy'));
         $this->assertTrue($event->getResponse()->headers->has('Permissions-Policy'));
     }
+
+    public function testSymfony7And8Compatibility(): void
+    {
+        // Create event
+        $event = new ResponseEvent(
+            $this->kernel,
+            $this->request,
+            HttpKernelInterface::MAIN_REQUEST,
+            $this->response
+        );
+
+        // Configure CSP with modern values for Symfony 7 and 8
+        $this->headers->enableCSP([
+            'default-src' => ["'self'"],
+            'script-src' => ["'self'", "'wasm-unsafe-eval'", "'strict-dynamic'"],
+            'style-src' => ["'self'"],
+            'connect-src' => ["'self'", "https://api.example.com"],
+            'img-src' => ["'self'", "data:"],
+            'worker-src' => ["'self'"],
+            'frame-src' => ["'self'"],
+            'font-src' => ["'self'"],
+        ]);
+
+        // Apply headers to response
+        foreach ($this->headers->getHeaders() as $name => $value) {
+            $event->getResponse()->headers->set($name, $value);
+        }
+
+        // Test if modern CSP directives are properly set
+        $cspHeader = $event->getResponse()->headers->get('Content-Security-Policy');
+        $this->assertStringContainsString("'wasm-unsafe-eval'", $cspHeader);
+        $this->assertStringContainsString("'strict-dynamic'", $cspHeader);
+        $this->assertStringContainsString("worker-src 'self'", $cspHeader);
+    }
 }
