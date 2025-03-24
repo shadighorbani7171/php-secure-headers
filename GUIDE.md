@@ -1,39 +1,39 @@
-# راهنمای استفاده از PHP Secure Headers
+# PHP Secure Headers - Comprehensive User Guide
 
-این راهنما به شما کمک می‌کند تا در چند دقیقه هدرهای امنیتی را در پروژه PHP خود فعال کنید.
+This guide will help you implement security headers in your PHP project in just a few minutes.
 
-## فهرست مطالب
+## Table of Contents
 
-- [نصب سریع](#نصب-سریع)
-- [استفاده پایه](#استفاده-پایه)
-- [ادغام با Laravel](#ادغام-با-laravel)
-- [ادغام با Symfony](#ادغام-با-symfony)
-- [پیکربندی پیشرفته](#پیکربندی-پیشرفته)
-- [مقایسه با سایر پکیج‌ها](#مقایسه-با-سایر-پکیج‌ها)
+- [Quick Installation](#quick-installation)
+- [Basic Usage](#basic-usage)
+- [Laravel Integration](#laravel-integration)
+- [Symfony Integration](#symfony-integration)
+- [Advanced Configuration](#advanced-configuration)
+- [Comparison with Other Packages](#comparison-with-other-packages)
 
-## نصب سریع
+## Quick Installation
 
 ```bash
 composer require shgh/php-secure-headers
 ```
 
-همین! فقط یک دستور.
+That's it! Just one command.
 
-## استفاده پایه
+## Basic Usage
 
-استفاده اولیه فقط **2 خط کد** نیاز دارد:
+Basic usage requires only **2 lines of code**:
 
 ```php
 $headers = new \SecureHeaders\SecureHeaders();
 $headers->enableAllSecurityHeaders();
 
-// اعمال هدرها
+// Apply headers
 foreach ($headers->getHeaders() as $name => $value) {
     header("$name: $value");
 }
 ```
 
-با این کد ساده، تمام هدرهای امنیتی زیر فعال می‌شوند:
+With this simple code, all the following security headers are enabled:
 - Content-Security-Policy
 - Strict-Transport-Security
 - X-Frame-Options
@@ -42,11 +42,11 @@ foreach ($headers->getHeaders() as $name => $value) {
 - Referrer-Policy
 - Permissions-Policy
 
-## ادغام با Laravel
+## Laravel Integration
 
-### نصب در Laravel (فقط 2 دقیقه!)
+### Installation in Laravel (Just 2 minutes!)
 
-**گام 1**: میدلور ایجاد کنید (یا از نمونه ما کپی کنید)
+**Step 1**: Create a middleware (or copy our example)
 
 ```php
 <?php
@@ -79,7 +79,7 @@ class SecureHeadersMiddleware
         return $response;
     }
     
-    // برای استفاده با Blade و Vite
+    // For use with Blade and Vite
     public function getNonce(): string
     {
         return $this->headers->getNonce();
@@ -87,7 +87,7 @@ class SecureHeadersMiddleware
 }
 ```
 
-**گام 2**: میدلور را در `bootstrap/app.php` ثبت کنید
+**Step 2**: Register the middleware in `bootstrap/app.php`
 
 ```php
 ->withMiddleware(function (Middleware $middleware) {
@@ -95,13 +95,13 @@ class SecureHeadersMiddleware
 })
 ```
 
-**گام 3**: برای استفاده از nonce در بلید و Vite
+**Step 3**: For using nonce with Blade and Vite
 
 ```php
-// در برنامه، Middleware را singleton کنید
+// In your application, make Middleware a singleton
 $this->app->singleton(\App\Http\Middleware\SecureHeadersMiddleware::class);
 
-// در AppServiceProvider.php
+// In AppServiceProvider.php
 public function boot(): void
 {
     if (class_exists('\Illuminate\Foundation\Vite')) {
@@ -112,19 +112,19 @@ public function boot(): void
 }
 ```
 
-در فایل‌های Blade، از nonce استفاده کنید:
+In Blade files, use the nonce:
 
 ```blade
 <script nonce="{{ app(\App\Http\Middleware\SecureHeadersMiddleware::class)->getNonce() }}">
-    // کد جاوااسکریپت شما
+    // Your JavaScript code
 </script>
 ```
 
-## ادغام با Symfony
+## Symfony Integration
 
-### نصب در Symfony (فقط 2 دقیقه!)
+### Installation in Symfony (Just 2 minutes!)
 
-**گام 1**: EventSubscriber ایجاد کنید (یا از نمونه ما کپی کنید)
+**Step 1**: Create an EventSubscriber (or copy our example)
 
 ```php
 <?php
@@ -173,12 +173,12 @@ class SecureHeadersSubscriber implements EventSubscriberInterface
 }
 ```
 
-**گام 2**: در Symfony، به لطف autoconfiguration، هیچ تنظیم اضافی نیاز نیست!
+**Step 2**: In Symfony, thanks to autoconfiguration, no additional setup is needed!
 
-**گام 3**: برای استفاده از nonce در Twig:
+**Step 3**: For using nonce in Twig:
 
 ```php
-// تنظیم Twig Extension
+// Set up a Twig Extension
 namespace App\Twig;
 
 use App\EventSubscriber\SecureHeadersSubscriber;
@@ -208,17 +208,17 @@ class SecureHeadersExtension extends AbstractExtension
 }
 ```
 
-در قالب‌های Twig:
+In Twig templates:
 
 ```twig
 <script nonce="{{ csp_nonce() }}">
-    // کد جاوااسکریپت شما
+    // Your JavaScript code
 </script>
 ```
 
-## پیکربندی پیشرفته
+## Advanced Configuration
 
-### سفارشی‌سازی CSP
+### Customizing CSP
 
 ```php
 $headers->enableCSP([
@@ -235,17 +235,17 @@ $headers->enableCSP([
 ]);
 ```
 
-### تنظیم HSTS
+### Configuring HSTS
 
 ```php
 $headers->enableHSTS(
-    maxAge: 31536000, // 1 سال
+    maxAge: 31536000, // 1 year
     includeSubDomains: true,
     preload: true
 );
 ```
 
-### تنظیم Permissions Policy
+### Configuring Permissions Policy
 
 ```php
 $headers->enablePermissionsPolicy([
@@ -256,22 +256,22 @@ $headers->enablePermissionsPolicy([
 ]);
 ```
 
-## مقایسه با سایر پکیج‌ها
+## Comparison with Other Packages
 
-| ویژگی | PHP Secure Headers (ما) | bepsvpt/secure-headers | paragonie/csp-builder |
+| Feature | PHP Secure Headers (Ours) | bepsvpt/secure-headers | paragonie/csp-builder |
 |-------|--------------------|-----------------------|----------------------|
-| سهولت استفاده | ✅ API روان و ساده | 🟡 نیاز به فایل کانفیگ | 🟡 فقط CSP |
-| پشتیبانی Laravel | ✅ کامل | ✅ کامل | ❌ ندارد |
-| پشتیبانی Symfony | ✅ کامل | ❌ ندارد | ❌ ندارد |
-| نیاز به تنظیمات | ✅ کمترین - فقط کد | 🟡 فایل کانفیگ | 🟡 آرایه پیکربندی |
-| CSP با nonce | ✅ خودکار | ✅ نیاز به تنظیم | ✅ نیاز به تنظیم |
-| پوشش تست | ✅ 100% | 🟡 نامشخص | 🟡 نامشخص |
-| حجم پکیج | ✅ سبک | 🟡 متوسط | ✅ سبک |
-| سرعت اجرا | ✅ بهینه | 🟡 متوسط | ✅ بهینه |
-| انعطاف‌پذیری API | ✅ بالا | 🟡 متوسط | 🟡 فقط برای CSP |
+| Ease of Use | ✅ Fluent, simple API | 🟡 Requires config file | 🟡 CSP only |
+| Laravel Support | ✅ Full | ✅ Full | ❌ None |
+| Symfony Support | ✅ Full | ❌ None | ❌ None |
+| Configuration Needs | ✅ Minimal - code only | 🟡 Config file | 🟡 Config array |
+| CSP with nonce | ✅ Automatic | ✅ Requires setup | ✅ Requires setup |
+| Test Coverage | ✅ 100% | 🟡 Unknown | 🟡 Unknown |
+| Package Size | ✅ Light | 🟡 Medium | ✅ Light |
+| Execution Speed | ✅ Optimized | 🟡 Medium | ✅ Optimized |
+| API Flexibility | ✅ High | 🟡 Medium | 🟡 CSP only |
 
 
-## نمونه کدهای آماده برای فریمورک‌های JavaScript
+## Ready-to-Use Code Samples for JavaScript Frameworks
 
 ### Vue.js
 
@@ -279,7 +279,7 @@ $headers->enablePermissionsPolicy([
 $headers->enableCSP([
     'default-src' => ["'self'"],
     'script-src' => ["'self'", "'nonce-" . $headers->getNonce() . "'"],
-    'style-src' => ["'self'", "'unsafe-inline'"], // برای Vue styles
+    'style-src' => ["'self'", "'unsafe-inline'"], // For Vue styles
     'img-src' => ["'self'", "data:"],
     'connect-src' => ["'self'", "https://api.example.com"]
 ]);
@@ -291,7 +291,7 @@ $headers->enableCSP([
 $headers->enableCSP([
     'default-src' => ["'self'"],
     'script-src' => ["'self'", "'nonce-" . $headers->getNonce() . "'"],
-    'style-src' => ["'self'", "'unsafe-inline'"], // برای styled-components
+    'style-src' => ["'self'", "'unsafe-inline'"], // For styled-components
     'img-src' => ["'self'", "data:"],
     'connect-src' => ["'self'", "https://api.example.com"]
 ]);
@@ -303,7 +303,7 @@ $headers->enableCSP([
 $headers->enableCSP([
     'default-src' => ["'self'"],
     'script-src' => ["'self'", "'nonce-" . $headers->getNonce() . "'"],
-    'style-src' => ["'self'", "'unsafe-inline'"], // برای Alpine style bindings
+    'style-src' => ["'self'", "'unsafe-inline'"], // For Alpine style bindings
     'img-src' => ["'self'", "data:"],
     'connect-src' => ["'self'", "https://api.example.com"]
 ]);
@@ -311,7 +311,7 @@ $headers->enableCSP([
 
 ---
 
-## نمونه محیط تولید برای Laravel
+## Production Environment Example for Laravel
 
 ```php
 <?php
@@ -332,11 +332,11 @@ class SecureHeadersMiddleware
         $this->headers = new SecureHeaders();
         
         if (app()->environment('production')) {
-            // تنظیمات سختگیرانه برای محیط تولید
+            // Strict settings for production environment
             $this->headers->enableAllSecurityHeaders();
             $this->headers->enableHSTS(maxAge: 31536000, includeSubDomains: true, preload: true);
             
-            // CSP سختگیرانه با nonce
+            // Strict CSP with nonce
             $this->headers->enableCSP([
                 'default-src' => ["'self'"],
                 'script-src' => ["'self'", "'nonce-" . $this->headers->getNonce() . "'"],
@@ -350,22 +350,22 @@ class SecureHeadersMiddleware
                 'upgrade-insecure-requests' => true
             ]);
         } else {
-            // تنظیمات راحت‌تر برای محیط توسعه
+            // More relaxed settings for development
             $this->headers->enableXFrameOptions('SAMEORIGIN');
             $this->headers->enableXContentTypeOptions();
             
-            // CSP با اجازه برای ابزارهای توسعه
+            // CSP allowing dev tools
             $this->headers->enableCSP([
                 'default-src' => ["'self'"],
                 'script-src' => ["'self'", "'unsafe-eval'", "'unsafe-inline'"],
                 'style-src' => ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
                 'img-src' => ["'self'", "data:", "*"],
                 'font-src' => ["'self'", "https://fonts.gstatic.com", "data:"],
-                'connect-src' => ["'self'", "ws:", "wss:"] // برای hot reload
+                'connect-src' => ["'self'", "ws:", "wss:"] // For hot reload
             ]);
         }
         
-        // اگر از Vite استفاده می‌شود
+        // If using Vite
         if (class_exists('\Illuminate\Foundation\Vite')) {
             \Illuminate\Foundation\Vite::useCspNonce($this->headers->getNonce());
         }
@@ -389,4 +389,4 @@ class SecureHeadersMiddleware
 }
 ```
 
-موفق باشید! 🚀 
+Good luck! 🚀 
