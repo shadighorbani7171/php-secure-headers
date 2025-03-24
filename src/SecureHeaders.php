@@ -21,6 +21,14 @@ class SecureHeaders
         $this->headers = [];
     }
 
+    /**
+     * @return array<string, string>
+     */
+    public function getHeaders(): array
+    {
+        return $this->headers;
+    }
+
     public function setSecurityLevel(string $level): void
     {
         if (!in_array($level, [self::LEVEL_BASIC, self::LEVEL_STRICT], true)) {

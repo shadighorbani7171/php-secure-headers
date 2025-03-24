@@ -3,9 +3,9 @@
 namespace SecureHeaders\Tests;
 
 use PHPUnit\Framework\TestCase;
-use SecureHeaders\SecureHeaders;
 use ReflectionClass;
 use ReflectionProperty;
+use SecureHeaders\SecureHeaders;
 
 /**
  * @covers \SecureHeaders\SecureHeaders
@@ -815,6 +815,12 @@ class SecureHeadersTest extends TestCase
         $headers = $property->getValue($this->headers);
 
         $this->assertArrayHasKey('Critical-CH', $headers);
-        $this->assertSame(implode(', ', $hints), $headers['Critical-CH']);
+
+        // Sort both arrays before comparison
+        sort($hints);
+        $actualHints = explode(', ', $headers['Critical-CH']);
+        sort($actualHints);
+
+        $this->assertSame(implode(', ', $hints), implode(', ', $actualHints));
     }
 }
