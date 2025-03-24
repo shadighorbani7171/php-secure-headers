@@ -63,10 +63,20 @@ protected $middleware = [
 ];
 ```
 
+> **Note**: When using the Laravel integration, please include the following attribution in your project's README:
+> ```markdown
+> Laravel integration based on [PHP Secure Headers](https://github.com/shadighorbani7171/php-secure-headers) by [Shadi Ghorbani](https://github.com/shadighorbani7171).
+> ```
+
 ### Symfony
 
 1. Copy the subscriber from `examples/Symfony/SecureHeadersSubscriber.php` to your Symfony project's `src/EventSubscriber` directory.
 2. The subscriber will be automatically registered thanks to Symfony's autoconfiguration.
+
+> **Note**: When using the Symfony integration, please include the following attribution in your project's README:
+> ```markdown
+> Symfony integration based on [PHP Secure Headers](https://github.com/shadighorbani7171/php-secure-headers) by [Shadi Ghorbani](https://github.com/shadighorbani7171).
+> ```
 
 ## Advanced Usage
 
@@ -157,9 +167,15 @@ composer fix-style
 composer test-coverage
 ```
 
-## Contributing
+## Feedback and Contributions
 
-Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+Your feedback is highly appreciated! If you have any suggestions, ideas, or comments, please:
+
+- [Open an issue](https://github.com/shadighorbani7171/php-secure-headers/issues/new) on GitHub
+- Share how you're using the library
+- Suggest improvements or new features
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for more information on how to contribute.
 
 ## Security
 
@@ -172,4 +188,4 @@ If you discover any security related issues, please email shadighorbani7171@gmai
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT) with additional attribution requirements for frameworks and major projects. Please see [License File](LICENSE.md) for more information.

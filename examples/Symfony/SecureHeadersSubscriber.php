@@ -7,6 +7,12 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
+/**
+ * Secure Headers Event Subscriber for Symfony
+ * 
+ * This subscriber is based on PHP Secure Headers by Shadi Ghorbani
+ * @see https://github.com/shadighorbani7171/php-secure-headers
+ */
 class SecureHeadersSubscriber implements EventSubscriberInterface
 {
     private SecureHeaders $headers;
@@ -14,28 +20,22 @@ class SecureHeadersSubscriber implements EventSubscriberInterface
     public function __construct()
     {
         $this->headers = new SecureHeaders();
-    }
-
-    public function onKernelResponse(ResponseEvent $event): void
-    {
-        if (!$event->isMainRequest()) {
-            return;
-        }
-
-        // Enable all security headers
         $this->headers->enableAllSecurityHeaders();
-
-        // Apply headers to response
-        $response = $event->getResponse();
-        foreach ($this->headers->getHeaders() as $name => $value) {
-            $response->headers->set($name, $value);
-        }
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::RESPONSE => ['onKernelResponse', 0],
+            KernelEvents::RESPONSE => 'onKernelResponse',
         ];
+    }
+
+    public function onKernelResponse(ResponseEvent $event): void
+    {
+        $response = $event->getResponse();
+        
+        foreach ($this->headers->getHeaders() as $name => $value) {
+            $response->headers->set($name, $value);
+        }
     }
 } 
