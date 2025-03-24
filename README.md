@@ -53,6 +53,8 @@ foreach ($headers->getHeaders() as $name => $value) {
 
 ### Laravel
 
+#### Laravel 10 and Earlier
+
 1. Copy the middleware from `examples/Laravel/SecureHeadersMiddleware.php` to your Laravel project's `app/Http/Middleware` directory.
 2. Register the middleware in `app/Http/Kernel.php`:
 
@@ -62,6 +64,20 @@ protected $middleware = [
     \App\Http\Middleware\SecureHeadersMiddleware::class,
 ];
 ```
+
+#### Laravel 11
+
+1. Copy the middleware from `examples/Laravel/SecureHeadersMiddleware.php` to your Laravel project's `app/Http/Middleware` directory.
+2. Register the middleware in your `bootstrap/app.php` file:
+
+```php
+->withMiddleware(function (Middleware $middleware) {
+    // Add the SecureHeaders middleware globally
+    $middleware->append(\App\Http\Middleware\SecureHeadersMiddleware::class);
+})
+```
+
+For detailed instructions and alternative approaches, see `examples/Laravel/README.md`.
 
 > **Note**: When using the Laravel integration, please include the following attribution in your project's README:
 > ```markdown
