@@ -113,7 +113,7 @@ class LaravelTest extends TestCase
     {
         // Enable headers
         $this->headers->enableAllSecurityHeaders();
-        
+
         // Apply headers to response
         foreach ($this->headers->getHeaders() as $name => $value) {
             $this->response->headers->set($name, $value);
@@ -133,7 +133,7 @@ class LaravelTest extends TestCase
         // Enable headers with CSP nonce
         $this->headers->enableAllSecurityHeaders();
         $nonce = $this->headers->getNonce();
-        
+
         // Apply headers to response
         foreach ($this->headers->getHeaders() as $name => $value) {
             $this->response->headers->set($name, $value);
@@ -148,7 +148,7 @@ class LaravelTest extends TestCase
     {
         // Enable headers
         $this->headers->enableAllSecurityHeaders();
-        
+
         // Apply headers to response
         foreach ($this->headers->getHeaders() as $name => $value) {
             $this->response->headers->set($name, $value);
