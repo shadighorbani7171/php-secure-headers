@@ -1,0 +1,10 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+.success {
+    color: #28a745;
+    font-weight: bold;
+} 
