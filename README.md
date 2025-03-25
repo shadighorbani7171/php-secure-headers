@@ -1,8 +1,12 @@
 # PHP Secure Headers
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/shgh/php-secure-headers.svg?style=flat-square)](https://packagist.org/packages/shgh/php-secure-headers)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/easyshield/php-secure-headers.svg?style=flat-square)](https://packagist.org/packages/easyshield/php-secure-headers)
 [![Tests](https://github.com/shadighorbani7171/php-secure-headers/actions/workflows/tests.yml/badge.svg)](https://github.com/shadighorbani7171/php-secure-headers/actions/workflows/tests.yml)
-[![Total Downloads](https://img.shields.io/packagist/dt/shgh/php-secure-headers.svg?style=flat-square)](https://packagist.org/packages/shgh/php-secure-headers)
+[![Total Downloads](https://img.shields.io/packagist/dt/easyshield/php-secure-headers.svg?style=flat-square)](https://packagist.org/packages/easyshield/php-secure-headers)
+
+[English](#english) | [فارسی](#persian)
+
+<div id="english">
 
 A powerful PHP library for managing security headers in web applications. This library helps you implement best security practices by easily configuring various security headers including Content Security Policy (CSP), HTTP Strict Transport Security (HSTS), and more.
 
@@ -26,7 +30,7 @@ A powerful PHP library for managing security headers in web applications. This l
 You can install the package via composer:
 
 ```bash
-composer require shgh/php-secure-headers
+composer require easyshield/php-secure-headers
 ```
 
 ## Quick Usage
@@ -38,7 +42,7 @@ Just 5 lines of code to enable all security headers:
 ```php
 <?php
 // Create the headers instance
-$headers = new \SecureHeaders\SecureHeaders();
+$headers = new \EasyShield\SecureHeaders\SecureHeaders();
 $headers->enableAllSecurityHeaders();
 
 // Apply headers
@@ -58,7 +62,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use SecureHeaders\SecureHeaders;
+use EasyShield\SecureHeaders\SecureHeaders;
 use Symfony\Component\HttpFoundation\Response;
 
 class SecureHeadersMiddleware
@@ -99,7 +103,7 @@ Then register it in `bootstrap/app.php`:
 // src/EventSubscriber/SecureHeadersSubscriber.php
 namespace App\EventSubscriber;
 
-use SecureHeaders\SecureHeaders;
+use EasyShield\SecureHeaders\SecureHeaders;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -141,7 +145,7 @@ class SecureHeadersSubscriber implements EventSubscriberInterface
 Enable only specific headers:
 
 ```php
-$headers = new \SecureHeaders\SecureHeaders();
+$headers = new \EasyShield\SecureHeaders\SecureHeaders();
 
 // Enable only specific headers
 $headers->enableHSTS()
@@ -270,7 +274,7 @@ Your feedback is highly appreciated! If you have any suggestions, ideas, or comm
 * Share how you're using the library
 * Suggest improvements or new features
 
-See CONTRIBUTING.md for more information on how to contribute.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for more information on how to contribute.
 
 ## Security
 
@@ -278,19 +282,24 @@ If you discover any security related issues, please email shadighorbani7171@gmai
 
 ## Credits
 
-* Shadi Ghorbani
-* All Contributors
+* [Shadi Ghorbani](https://github.com/shadighorbani7171)
+* [All Contributors](../../contributors)
 
 ## License
 
-The MIT License (MIT) with additional attribution requirements for frameworks and major projects. Please see License File for more information.
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-## فارسی
+</div>
 
-<details>
-<summary>برای مشاهده راهنما به زبان فارسی کلیک کنید</summary>
+---
 
-### ویژگی‌ها
+<div id="persian" dir="rtl">
+
+# هدرهای امنیتی PHP
+
+یک کتابخانه قدرتمند PHP برای مدیریت هدرهای امنیتی در برنامه‌های وب. این کتابخانه به شما کمک می‌کند تا بهترین شیوه‌های امنیتی را با پیکربندی آسان هدرهای مختلف امنیتی از جمله Content Security Policy (CSP)، HTTP Strict Transport Security (HSTS) و موارد دیگر پیاده‌سازی کنید.
+
+## ویژگی‌ها
 
 - 🛡️ پیکربندی آسان هدرهای امنیتی
 - 🔒 پشتیبانی از Content Security Policy (CSP)
@@ -305,20 +314,20 @@ The MIT License (MIT) with additional attribution requirements for frameworks an
 - 🔄 تولید خودکار nonce برای CSP
 - ⚡ ادغام با فریمورک‌ها (Laravel و Symfony)
 
-### نصب سریع
+## نصب
 
 نصب با Composer:
 
 ```bash
-composer require shgh/php-secure-headers
+composer require easyshield/php-secure-headers
 ```
 
-### استفاده سریع
+## استفاده سریع
 
 ```php
 <?php
 // هدرهای امنیتی را فعال کنید
-$headers = new \SecureHeaders\SecureHeaders();
+$headers = new \EasyShield\SecureHeaders\SecureHeaders();
 $headers->enableAllSecurityHeaders();
 
 // هدرها را اعمال کنید
@@ -327,5 +336,26 @@ foreach ($headers->getHeaders() as $name => $value) {
 }
 ```
 
-برای مثال‌های بیشتر، لطفاً به [راهنمای کامل](GUIDE.md) مراجعه کنید.
-</details>
+## مستندات بیشتر
+
+برای مثال‌های بیشتر و راهنمای کامل، لطفاً به [راهنمای جامع](GUIDE.md) مراجعه کنید.
+
+## مشارکت
+
+نظرات شما بسیار ارزشمند است! اگر پیشنهاد، ایده یا نظری دارید، لطفاً:
+
+* در GitHub یک issue باز کنید
+* نحوه استفاده خود از کتابخانه را به اشتراک بگذارید
+* بهبودها یا ویژگی‌های جدید را پیشنهاد دهید
+
+برای اطلاعات بیشتر در مورد نحوه مشارکت، به [CONTRIBUTING.md](CONTRIBUTING.md) مراجعه کنید.
+
+## امنیت
+
+اگر مشکلات مرتبط با امنیت پیدا کردید، لطفاً به جای استفاده از issue tracker، به آدرس shadighorbani7171@gmail.com ایمیل بزنید.
+
+## مجوز
+
+مجوز MIT (MIT). لطفاً برای اطلاعات بیشتر به [فایل مجوز](LICENSE.md) مراجعه کنید.
+
+</div>
