@@ -9,7 +9,7 @@
          displayDetailsOnTestsThatTriggerNotices="true"
          displayDetailsOnTestsThatTriggerWarnings="true">
     <testsuites>
-        <testsuite name="SecureHeaders Test Suite">
+        <testsuite name="EasyShield Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>

@@ -1,6 +1,6 @@
 <?php
 
-namespace SecureHeaders;
+namespace EasyShield\SecureHeaders;
 
 class SecureHeaders
 {

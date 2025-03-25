@@ -1,9 +1,9 @@
 <?php
 
-namespace SecureHeaders\Tests;
+namespace EasyShield\SecureHeaders\Tests;
 
 use PHPUnit\Framework\TestCase;
-use SecureHeaders\SecureHeaders;
+use EasyShield\SecureHeaders\SecureHeaders;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;

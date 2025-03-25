@@ -1,14 +1,14 @@
 <?php
 
-namespace SecureHeaders\Tests;
+namespace EasyShield\SecureHeaders\Tests;
 
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionProperty;
-use SecureHeaders\SecureHeaders;
+use EasyShield\SecureHeaders\SecureHeaders;
 
 /**
- * @covers \SecureHeaders\SecureHeaders
+ * @covers \EasyShield\SecureHeaders\SecureHeaders
  */
 class SecureHeadersTest extends TestCase
 {

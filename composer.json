@@ -1,8 +1,8 @@
 {
-    "name": "shgh/php-secure-headers",
+    "name": "easyshield/php-secure-headers",
     "description": "A simple yet powerful PHP library for managing security headers in web applications",
     "version": "1.0.0",
-    "keywords": ["security", "headers", "csp", "php", "x-frame-options", "hsts"],
+    "keywords": ["security", "headers", "csp", "php", "x-frame-options", "hsts", "easyshield"],
     "type": "library",
     "license": "MIT",
     "homepage": "https://github.com/shadighorbani7171/php-secure-headers",
@@ -31,12 +31,12 @@
     },
     "autoload": {
         "psr-4": {
-            "SecureHeaders\\": "src/"
+            "EasyShield\\SecureHeaders\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "SecureHeaders\\Tests\\": "tests/"
+            "EasyShield\\SecureHeaders\\Tests\\": "tests/"
         }
     },
     "scripts": {
