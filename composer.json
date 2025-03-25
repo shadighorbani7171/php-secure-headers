@@ -1,7 +1,6 @@
 {
     "name": "easyshield/php-secure-headers",
     "description": "A simple yet powerful PHP library for managing security headers in web applications",
-    "version": "1.0.1",
     "keywords": ["security", "headers", "csp", "php", "x-frame-options", "hsts", "easyshield"],
     "type": "library",
     "license": "MIT",
