@@ -2,10 +2,10 @@
 
 namespace EasyShield\SecureHeaders\Tests;
 
+use EasyShield\SecureHeaders\SecureHeaders;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionProperty;
-use EasyShield\SecureHeaders\SecureHeaders;
 
 /**
  * @covers \EasyShield\SecureHeaders\SecureHeaders

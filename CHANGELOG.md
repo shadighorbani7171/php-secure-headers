@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2025-03-25
+
+### Changed
+- Package renamed to easyshield/php-secure-headers
+- Updated namespace to EasyShield\SecureHeaders
+- Improved code organization and style
+
 ## [1.0.0] - 2025-03-25
 
 ### Added

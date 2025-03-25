@@ -2,8 +2,8 @@
 
 namespace EasyShield\SecureHeaders\Tests;
 
-use PHPUnit\Framework\TestCase;
 use EasyShield\SecureHeaders\SecureHeaders;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;

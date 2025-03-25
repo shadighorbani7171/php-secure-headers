@@ -2,10 +2,10 @@
 
 namespace EasyShield\SecureHeaders\Tests;
 
+use EasyShield\SecureHeaders\SecureHeaders;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use PHPUnit\Framework\TestCase;
-use EasyShield\SecureHeaders\SecureHeaders;
 
 class LaravelTest extends TestCase
 {
