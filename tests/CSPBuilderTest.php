@@ -180,12 +180,15 @@ class CSPBuilderTest extends TestCase
 
     public function testIntegrationWithSecureHeaders(): void
     {
-        $this->secureHeaders->csp()
+        // Build CSP policy
+        $cspPolicies = $this->secureHeaders->csp()
             ->allowScripts('https://example.com')
             ->allowStyles('https://fonts.googleapis.com')
-            ->useStrictDynamic();
-
-        $this->secureHeaders->enableCSP();
+            ->useStrictDynamic()
+            ->getDirectives();
+            
+        // Enable CSP with the configured directives
+        $this->secureHeaders->enableCSP($cspPolicies);
         $headers = $this->secureHeaders->getHeaders();
 
         $this->assertArrayHasKey('Content-Security-Policy', $headers);

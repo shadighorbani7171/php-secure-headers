@@ -12,6 +12,8 @@ class SecureHeaders
     protected string $securityLevel;
     protected ?string $nonce = null;
 
+    private ?CSPBuilder $cspBuilder = null;
+
     public function __construct(string $securityLevel = self::LEVEL_STRICT)
     {
         if (!in_array($securityLevel, [self::LEVEL_BASIC, self::LEVEL_STRICT], true)) {
@@ -51,50 +53,100 @@ class SecureHeaders
     }
 
     /**
+     * Get CSP builder instance for fluent configuration
+     */
+    public function csp(): CSPBuilder
+    {
+        if ($this->cspBuilder === null) {
+            $this->cspBuilder = new CSPBuilder($this);
+        }
+        return $this->cspBuilder;
+    }
+
+    /**
      * @param array<string, array<string>> $policies
      */
     public function enableCSP(array $policies = []): void
     {
         if (empty($policies)) {
+            // Use default policies from getDefaultCSPPolicies() for backward compatibility
             $policies = $this->getDefaultCSPPolicies();
-        }
-
-        if (!isset($this->nonce)) {
-            $this->nonce = $this->generateNonce();
-        }
-
-        if (!isset($policies['script-src'])) {
-            $policies['script-src'] = ["'self'"];
-        }
-
-        // Special handling for img-src to match test expectations
-        if (isset($policies['img-src'])) {
-            $hasCustomSources = false;
-            foreach ($policies['img-src'] as $src) {
-                if ($src !== "'self'" && $src !== 'data:' && $src !== 'https:') {
-                    $hasCustomSources = true;
-                    break;
-                }
+            
+            if (!isset($this->nonce)) {
+                $this->nonce = $this->generateNonce();
             }
-
-            if ($hasCustomSources) {
-                $newImgSrc = ["'self'"];
-                $newImgSrc[] = "data:";
+    
+            if (!isset($policies['script-src'])) {
+                $policies['script-src'] = ["'self'"];
+            }
+    
+            // Special handling for img-src to match test expectations
+            if (isset($policies['img-src'])) {
+                $hasCustomSources = false;
                 foreach ($policies['img-src'] as $src) {
                     if ($src !== "'self'" && $src !== 'data:' && $src !== 'https:') {
-                        $newImgSrc[] = $src;
+                        $hasCustomSources = true;
+                        break;
                     }
                 }
-                $policies['img-src'] = $newImgSrc;
+    
+                if ($hasCustomSources) {
+                    $newImgSrc = ["'self'"];
+                    $newImgSrc[] = "data:";
+                    foreach ($policies['img-src'] as $src) {
+                        if ($src !== "'self'" && $src !== 'data:' && $src !== 'https:') {
+                            $newImgSrc[] = $src;
+                        }
+                    }
+                    $policies['img-src'] = $newImgSrc;
+                }
             }
+    
+            $policies['script-src'][] = "'nonce-{$this->nonce}'";
+            if ($this->securityLevel === self::LEVEL_STRICT) {
+                $policies['script-src'][] = "'strict-dynamic'";
+            }
+    
+            $this->headers['Content-Security-Policy'] = $this->buildCSPString($policies);
+        } else {
+            // Using custom policies provided as parameter
+            if (!isset($this->nonce)) {
+                $this->nonce = $this->generateNonce();
+            }
+    
+            if (!isset($policies['script-src'])) {
+                $policies['script-src'] = ["'self'"];
+            }
+    
+            // Special handling for img-src to match test expectations
+            if (isset($policies['img-src'])) {
+                $hasCustomSources = false;
+                foreach ($policies['img-src'] as $src) {
+                    if ($src !== "'self'" && $src !== 'data:' && $src !== 'https:') {
+                        $hasCustomSources = true;
+                        break;
+                    }
+                }
+    
+                if ($hasCustomSources) {
+                    $newImgSrc = ["'self'"];
+                    $newImgSrc[] = "data:";
+                    foreach ($policies['img-src'] as $src) {
+                        if ($src !== "'self'" && $src !== 'data:' && $src !== 'https:') {
+                            $newImgSrc[] = $src;
+                        }
+                    }
+                    $policies['img-src'] = $newImgSrc;
+                }
+            }
+    
+            $policies['script-src'][] = "'nonce-{$this->nonce}'";
+            if ($this->securityLevel === self::LEVEL_STRICT) {
+                $policies['script-src'][] = "'strict-dynamic'";
+            }
+    
+            $this->headers['Content-Security-Policy'] = $this->buildCSPString($policies);
         }
-
-        $policies['script-src'][] = "'nonce-{$this->nonce}'";
-        if ($this->securityLevel === self::LEVEL_STRICT) {
-            $policies['script-src'][] = "'strict-dynamic'";
-        }
-
-        $this->headers['Content-Security-Policy'] = $this->buildCSPString($policies);
     }
 
     /**
