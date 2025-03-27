@@ -173,4 +173,120 @@ class SymfonyTest extends TestCase
         $this->assertStringContainsString("'strict-dynamic'", $cspHeader);
         $this->assertStringContainsString("worker-src 'self'", $cspHeader);
     }
+
+    public function testSymfonyWithCSPBuilder(): void
+    {
+        // Create event
+        $event = new ResponseEvent(
+            $this->kernel,
+            $this->request,
+            HttpKernelInterface::MAIN_REQUEST,
+            $this->response
+        );
+        
+        // Configure CSP using the fluent builder
+        $this->headers->csp()
+            ->allowScripts('https://cdn.example.com')
+            ->allowStyles('https://fonts.googleapis.com')
+            ->allowImages('https://images.example.com')
+            ->blockFrames()
+            ->useStrictDynamic();
+            
+        // Get CSP directives and enable CSP
+        $cspPolicies = $this->headers->csp()->getDirectives();
+        $this->headers->enableCSP($cspPolicies);
+        
+        // Apply headers to Symfony response
+        foreach ($this->headers->getHeaders() as $name => $value) {
+            $event->getResponse()->headers->set($name, $value);
+        }
+        
+        // Test if CSP header is properly set with expected values
+        $cspHeader = $event->getResponse()->headers->get('Content-Security-Policy');
+        $this->assertStringContainsString('script-src', $cspHeader);
+        $this->assertStringContainsString('https://cdn.example.com', $cspHeader);
+        $this->assertStringContainsString('style-src', $cspHeader);
+        $this->assertStringContainsString('https://fonts.googleapis.com', $cspHeader);
+        $this->assertStringContainsString('img-src', $cspHeader);
+        $this->assertStringContainsString('https://images.example.com', $cspHeader);
+        $this->assertStringContainsString('frame-ancestors', $cspHeader);
+        $this->assertStringContainsString("'none'", $cspHeader);
+        $this->assertStringContainsString("'strict-dynamic'", $cspHeader);
+    }
+    
+    public function testSymfonyWithCSPBuilderHTMLDetection(): void
+    {
+        // Create event
+        $event = new ResponseEvent(
+            $this->kernel,
+            $this->request,
+            HttpKernelInterface::MAIN_REQUEST,
+            $this->response
+        );
+        
+        // Sample HTML with external resources
+        $html = <<<HTML
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.example.com/styles.css">
+</head>
+<body>
+    <img src="https://example.com/image.jpg">
+</body>
+</html>
+HTML;
+
+        // Use CSP Builder to detect external resources
+        $this->headers->csp()->detectExternalResourcesFromHtml($html);
+        
+        // Enable CSP with detected resources
+        $cspPolicies = $this->headers->csp()->getDirectives();
+        $this->headers->enableCSP($cspPolicies);
+        
+        // Apply headers to Symfony response
+        foreach ($this->headers->getHeaders() as $name => $value) {
+            $event->getResponse()->headers->set($name, $value);
+        }
+        
+        // Test if CSP header contains the detected resources
+        $cspHeader = $event->getResponse()->headers->get('Content-Security-Policy');
+        $this->assertStringContainsString('https://code.jquery.com', $cspHeader);
+        $this->assertStringContainsString('https://cdn.example.com', $cspHeader);
+        $this->assertStringContainsString('https://example.com', $cspHeader);
+    }
+    
+    public function testSymfonyWithCSPBuilderNonceInjection(): void
+    {
+        // Create event
+        $event = new ResponseEvent(
+            $this->kernel,
+            $this->request,
+            HttpKernelInterface::MAIN_REQUEST,
+            $this->response
+        );
+        
+        // Original HTML with scripts that need nonces
+        $html = '<script>console.log("Hello");</script><style>body{color:red}</style>';
+        
+        // Get CSP builder and inject nonces
+        $modifiedHtml = $this->headers->csp()->injectNoncesToHtml($html);
+        
+        // Enable CSP
+        $this->headers->enableCSP();
+        
+        // Apply headers to Symfony response
+        foreach ($this->headers->getHeaders() as $name => $value) {
+            $event->getResponse()->headers->set($name, $value);
+        }
+        
+        // Test if nonces were injected correctly
+        $this->assertMatchesRegularExpression('/<script nonce="[A-Za-z0-9+\/=]+"/', $modifiedHtml);
+        $this->assertMatchesRegularExpression('/<style nonce="[A-Za-z0-9+\/=]+"/', $modifiedHtml);
+        
+        // Test if CSP header contains nonce
+        $cspHeader = $event->getResponse()->headers->get('Content-Security-Policy');
+        $this->assertStringContainsString("'nonce-", $cspHeader);
+    }
 }
